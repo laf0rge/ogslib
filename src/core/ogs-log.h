@@ -100,6 +100,23 @@ void ogs_log_printf(ogs_log_level_e level, int domain_id,
 void ogs_log_hexdump_func(ogs_log_level_e level, int domain_id,
     const unsigned char *data, size_t len);
 
+#define ogs_expect(expr) \
+    do { \
+        if (ogs_likely(expr)) ; \
+	else { \
+            ogs_error("%s: Expectation `%s' failed.", OGS_FUNC, #expr); \
+	} \
+    } while (0)
+
+#define ogs_expect_or_return(expr) \
+    do { \
+        if (ogs_likely(expr)) ; \
+	else { \
+            ogs_error("%s: Expectation `%s' failed.", OGS_FUNC, #expr); \
+            return; \
+        } \
+    } while (0)
+
 #undef OGS_DISABLE_ASSERT
 
 #ifdef OGS_DISABLE_ASSERT
